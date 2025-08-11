@@ -1,2 +1,2 @@
 # minute-karyptic
-hi friends to my minute karyptic
+hi friends welcome to my minute karyptic
