@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <link href="https://fonts.googleapis.com/css2?family=Circe:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Minute Cryptic — Custom</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="game-container">
+    <div class="app">
+
+      <div class="top-header">
+        <div class="date-line">11 August, 2025</div>
+        <div class="by-line">By Karic Sooc</div>
+      </div>
+
+      <div id="clue" class="clue">
+        Skip band camp before the opener changes (5)
+      </div>
+
+      <div id="answer-grid" class="answer-grid" aria-label="answer letters"></div>
+
+      <div id="result-panel" class="result-panel" aria-live="polite">
+        <div class="dots-row">
+          <span class="dot active"></span><span class="dot active"></span><span class="dot active"></span><span class="dot active"></span>
+          <span class="dot active"></span><span class="dot active"></span><span class="dot active"></span><span class="dot active"></span>
+        </div>
+        <h2>You got it!</h2>
+        <p>You solved today's clue in <strong>(i could not gaf about the par thing im too lazy to code it)</strong></p>
+        <button class="gloat-btn">gloat more like goat (me)</button>
+        <p class="next-clue">Next clue in: <strong>some day</strong></p>
+      </div>
+
+      <div class="par-section">
+        <div class="par-dots">
+          <span class="dot"></span>
+          <span class="dot "></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+          <span class="dot"></span>
+        </div>
+      </div>
+
+      <div class="button-row">
+        <button class="hints-btn">hints</button>
+        <button class="check-btn">check</button>
+      </div>
+
+    </div>
+
+    
+<div id="support-box" class="support-box hidden" aria-hidden="true">
+  <div class="support-inner">
+    <img
+      class="support-img"
+      src="fonts/Capture.PNG"
+      alt="Support image"
+      loading="lazy"
+    />
+  </div>
+</div>
+
+    <div id="keyboard" class="keyboard" aria-label="on-screen keyboard">
+      <div class="key-row">
+        <button class="key" data-key="Q">Q</button><button class="key" data-key="W">W</button><button class="key" data-key="E">E</button>
+        <button class="key" data-key="R">R</button><button class="key" data-key="T">T</button><button class="key" data-key="Y">Y</button>
+        <button class="key" data-key="U">U</button><button class="key" data-key="I">I</button><button class="key" data-key="O">O</button>
+        <button class="key" data-key="P">P</button>
+      </div>
+
+      <div class="key-row">
+        <button class="key" data-key="A">A</button><button class="key" data-key="S">S</button><button class="key" data-key="D">D</button>
+        <button class="key" data-key="F">F</button><button class="key" data-key="G">G</button><button class="key" data-key="H">H</button>
+        <button class="key" data-key="J">J</button><button class="key" data-key="K">K</button><button class="key" data-key="L">L</button>
+      </div>
+
+      <div class="key-row">
+        <button class="key" data-key="Z">Z</button><button class="key" data-key="X">X</button><button class="key" data-key="C">C</button>
+        <button class="key" data-key="V">V</button><button class="key" data-key="B">B</button><button class="key" data-key="N">N</button>
+        <button class="key" data-key="M">M</button><button class="key delete" data-key="Backspace">⌫</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="hints-sheet" class="hints-sheet" aria-hidden="true">
+    <div class="sheet-view sheet-menu show">
+      <div class="sheet-header">
+        <span>Select a hint</span>
+        <button id="close-hints" class="sheet-close" aria-label="Close">✕</button>
+      </div>
+      <div class="sheet-body">
+        <button class="hint-option purple" data-hint="indicators"><span>show indicators</span></button>
+        <button class="hint-option yellow" data-hint="fodder"><span>show fodder</span></button>
+        <button class="hint-option blue" data-hint="definition"><span>show definition</span></button>
+        <hr>
+        <button class="hint-option yellow-strong" data-hint="letter"><span>show letter</span></button>
+      </div>
+    </div>
+
+    <div class="sheet-view sheet-detail" id="hint-indicators">
+      <div class="sheet-header">
+        <button class="sheet-back" data-back>←</button>
+        <span>Indicators</span>
+        <button class="sheet-close" aria-label="Close" data-close>✕</button>
+      </div>
+      <div class="sheet-body">
+        <div class="hint-note okojo">
+          'Skip' and 'opener' are our indicators. One tells us to "skip" some letters of the fodder and the other tells us to take the first letter of the fodder.
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet-view sheet-detail" id="hint-fodder">
+      <div class="sheet-header">
+        <button class="sheet-back" data-back>←</button>
+        <span>Fodder</span>
+        <button class="sheet-close" aria-label="Close" data-close>✕</button>
+      </div>
+      <div class="sheet-body">
+        <div class="hint-note okojo">
+          Our fodder is 'band camp' and 'the' surprisingly. Use these words as directed by the indicator(s).
+        </div>
+      </div>
+    </div>
+
+    <div class="sheet-view sheet-detail" id="hint-definition">
+      <div class="sheet-header">
+        <button class="sheet-back" data-back>←</button>
+        <span>Definition</span>
+        <button class="sheet-close" aria-label="Close" data-close>✕</button>
+      </div>
+      <div class="sheet-body">
+        <div class="hint-note okojo">
+          The definition is 'changes'. Think of another word for 'changes'.
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
