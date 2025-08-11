@@ -1,3 +1,16 @@
+body, .game-container, .app, .letter-box, .clue, .date-line, .by-line, .hints-btn, .check-btn, .par-dots .dot.show-par::after {
+  color: #000 !important;
+}
+
+a, a:visited, a:hover, a:active {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+* {
+  -webkit-tap-highlight-color: transparent; /* remove mobile highlight overlay */
+}
+
 @font-face {
   font-family: 'Okojo';
   src: url('fonts/okojo.otf') format('opentype');
@@ -323,3 +336,4 @@ html, body {
   background: linear-gradient(transparent 60%, rgba(255, 242, 177) 0);
 }
 .hints-open .hints-sheet { pointer-events: auto; }
+
