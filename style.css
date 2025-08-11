@@ -8,7 +8,7 @@ a, a:visited, a:hover, a:active {
 }
 
 * {
-  -webkit-tap-highlight-color: transparent; /* remove mobile highlight overlay */
+  -webkit-tap-highlight-color: transparent;
 }
 
 @font-face {
@@ -19,6 +19,20 @@ a, a:visited, a:hover, a:active {
 
 .okojo { font-family: 'Okojo', 'Richmond Display', serif; }
 
+.letter-box,
+.date-line,
+.by-line {
+  color: #000 !important;
+}
+
+a, a:visited, a:hover, a:active {
+  color: inherit !important;
+  text-decoration: none !important;
+}
+
+.clue {
+  color: #000 !important;
+}
 
 .clue-word { cursor: pointer; padding: 0 .06em; border-radius: 4px; }
 .hl-indicator { background: #f4c6f4; }
