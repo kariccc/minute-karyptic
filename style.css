@@ -7,8 +7,16 @@ a, a:visited, a:hover, a:active {
   text-decoration: none !important;
 }
 
-* {
-  -webkit-tap-highlight-color: transparent;
+
+body, button, .key, .hints-btn, .check-btn {
+  color: #000 !important;
+  -webkit-text-fill-color: #000 !important;
+}
+
+button, .key {
+  -webkit-appearance: none;
+  appearance: none;
+  background: none;
 }
 
 @font-face {
