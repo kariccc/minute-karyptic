@@ -6,7 +6,7 @@ let nextClueInterval = null;
 
 const PAR_INDEX = 1;
 
-const LETTER_HINT_ORDER = [];
+const LETTER_HINT_ORDER = [2, 7, 6, 5, 3, 8, 4, 1];
 
 //hint colors
 const HINT_SETS = {
