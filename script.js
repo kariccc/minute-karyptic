@@ -1,4 +1,4 @@
-const CORRECT_ANSWER = "anothera";
+const CORRECT_ANSWER = "director";
 const ANSWER_LETTERS = CORRECT_ANSWER.replace(/[^A-Za-z]/g, "");
 let letterBoxes = [2, 7, 6, 5, 3, 8, 4, 1];
 let startTime = Date.now();
