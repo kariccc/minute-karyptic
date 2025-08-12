@@ -141,9 +141,25 @@ html, body {
 .answer-grid {
   display: flex;
   justify-content: center;
-  gap: 0;
+  gap: 12px;
   margin: 12px 0;
 }
+
+.word {
+  display: flex;
+  gap: 0;
+}
+
+.word .letter-box + .letter-box { border-left: 3px solid #000; }
+.word .letter-box:first-child {
+  border-left: 3px solid #000;
+  border-top-left-radius: 10px; border-bottom-left-radius: 10px;
+}
+.word .letter-box:last-child {
+  border-right: 3px solid #000;
+  border-top-right-radius: 10px; border-bottom-right-radius: 10px;
+}
+
 
 .letter-box {
   width: 42px;
@@ -250,31 +266,54 @@ html, body {
 
 .support-box {
   position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 96px;
-  max-width: 600px;
-  margin: 0 auto;
-  z-index: 5;
-
-  padding: 0;
-  background: transparent;
-  box-sizing: border-box;
-  text-align: center;
-  border: none;
+  left: 0; right: 0; bottom: 96px;
+  max-width: 600px; margin: 0 auto; z-index: 5;
+  padding: 0; background: transparent; border: none; text-align: center;
 }
 
-.support-inner {
-  display: flex;
-  justify-content: center;
+.support-card {
+  background: rgba(208, 228, 250, 1);
+  border: 3px solid #000;
+  border-radius: 16px;
+  padding: 20px 16px;
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
 }
 
-.support-img {
-  width: 200px;
-  height: auto;
+.yt-link {
+  position: relative;
+  display: inline-block;
   border-radius: 12px;
+  overflow: hidden;
   border: 3px solid #000;
 }
+
+.yt-thumb {
+  display: block;
+  width: 240px;
+  height: auto;
+}
+
+.yt-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 64px;
+  height: auto;
+  transform: translate(-50%, -50%);
+}
+
+.support-note {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.35;
+  color: #000;
+}
+
+
+
 
 
 

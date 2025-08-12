@@ -1,14 +1,18 @@
-const CORRECT_ANSWER = "ADAPT";
+const CORRECT_ANSWER = "test";
+const ANSWER_LETTERS = CORRECT_ANSWER.replace(/[^A-Za-z]/g, "");
+let letterBoxes = [2, 7, 6, 5, 3, 8, 4, 1];
+let startTime = Date.now();
+let nextClueInterval = null;
 
 const PAR_INDEX = 1;
 
-const LETTER_HINT_ORDER = [5, 2, 3, 4, 1];
+const LETTER_HINT_ORDER = [];
 
 //hint colors
 const HINT_SETS = {
-  indicator: [1, 6],
-  fodder: [2, 3, 5],
-  definition: [7] 
+  indicator: [3, 9, 10,],
+  fodder: [2, 5, 6, 7, 8],
+  definition: [1] 
 };
 
 const answerGrid = document.getElementById("answer-grid");
@@ -44,42 +48,62 @@ wirePhysicalKeyboard();
 applyParIndex();
 prepareClueTokenization();
 wireHintsSheet();
-
+startNextClueTimer();
 
 function createBoxes() {
   answerGrid.innerHTML = "";
-  for (let i = 0; i < CORRECT_ANSWER.length; i++) {
-    const box = document.createElement("div");
-    box.className = "letter-box";
-    box.setAttribute("data-index", i);
-    box.addEventListener("click", () => {
-      if (gameOver) return;
-      focusBox(i);
+  shownByHint = new Set();
+  letterBoxes = [];
+
+  const words = CORRECT_ANSWER.trim().split(/\s+/);
+
+  words.forEach((word) => {
+    const wordDiv = document.createElement("div");
+    wordDiv.className = "word";
+
+    const letters = word.split("");
+    letters.forEach((ch) => {
+      if (!/[A-Za-z]/.test(ch)) return;
+
+      const box = document.createElement("div");
+      box.className = "letter-box";
+      box.setAttribute("data-index", letterBoxes.length);
+      box.addEventListener("click", () => {
+        if (gameOver) return;
+        focusBox(letterBoxes.indexOf(box));
+      });
+      wordDiv.appendChild(box);
+      letterBoxes.push(box);
     });
-    answerGrid.appendChild(box);
-  }
+
+    answerGrid.appendChild(wordDiv);
+  });
+
   focusBox(0);
   updateCheckButtonState();
 }
 
+
+
 function focusBox(index) {
-  focusedIndex = index;
-  [...answerGrid.children].forEach(b => b.classList.remove("focused"));
-  if (answerGrid.children[index]) {
-    answerGrid.children[index].classList.add("focused");
+  focusedIndex = Math.max(0, Math.min(index, letterBoxes.length - 1));
+  letterBoxes.forEach(b => b.classList.remove("focused"));
+  if (letterBoxes[focusedIndex]) {
+    letterBoxes[focusedIndex].classList.add("focused");
   }
 }
+
 
 function putLetter(letter) {
   if (gameOver || focusedIndex === null) return;
 
-  const box = answerGrid.children[focusedIndex];
+  const box = letterBoxes[focusedIndex];
   if (box?.dataset.locked === "hint") {
-    for (let i = focusedIndex + 1; i < CORRECT_ANSWER.length; i++) {
-      if (answerGrid.children[i].dataset.locked !== "hint") {
+    for (let i = focusedIndex + 1; i < letterBoxes.length; i++) {
+      if (letterBoxes[i].dataset.locked !== "hint") {
         focusBox(i);
-        answerGrid.children[i].textContent = letter;
-        if (i < CORRECT_ANSWER.length - 1) focusBox(i + 1);
+        letterBoxes[i].textContent = letter;
+        if (i < letterBoxes.length - 1) focusBox(i + 1);
         updateCheckButtonState();
         return;
       }
@@ -88,48 +112,48 @@ function putLetter(letter) {
   }
 
   box.textContent = letter;
-  if (focusedIndex < CORRECT_ANSWER.length - 1) focusBox(focusedIndex + 1);
+  if (focusedIndex < letterBoxes.length - 1) focusBox(focusedIndex + 1);
   updateCheckButtonState();
 }
+
 
 function deleteLetter() {
   if (gameOver || focusedIndex === null) return;
 
-  const current = answerGrid.children[focusedIndex];
+  const current = letterBoxes[focusedIndex];
   const isLocked = current?.dataset.locked === "hint";
 
-  if (current.textContent) {
-    if (!isLocked) {
-      current.textContent = "";
+  if (current.textContent && !isLocked) {
+    current.textContent = "";
+    updateCheckButtonState();
     return;
-    }
   }
 
   for (let i = focusedIndex - 1; i >= 0; i--) {
-    const left = answerGrid.children[i];
+    const left = letterBoxes[i];
     focusBox(i);
     if (left.textContent) {
-      if (left.dataset.locked !== "hint") {
-        left.textContent = "";
-      }
-      return;
+      if (left.dataset.locked !== "hint") left.textContent = "";
+      break;
     }
   }
-  focusBox(0);
+  updateCheckButtonState();
 }
+
 
 
 function getGuess() {
-  const raw = [...answerGrid.children].map(b => (b.textContent || "").trim()).join("");
-  return raw.toUpperCase()
+  return letterBoxes.map(b => (b.textContent || "").trim()).join("").toUpperCase();
 }
 
+
 function allFilled() {
-  for (let i = 0; i < CORRECT_ANSWER.length; i++) {
-    if (!(answerGrid.children[i].textContent || "").trim()) return false;
+  for (let i = 0; i < letterBoxes.length; i++) {
+    if (!(letterBoxes[i].textContent || "").trim()) return false;
   }
   return true;
 }
+
 
 function updateCheckButtonState() {
   if (allFilled()) checkBtn.classList.add("enabled");
@@ -138,23 +162,14 @@ function updateCheckButtonState() {
 
 function runCheck() {
   if (gameOver) return;
-
   if (!allFilled()) {
     answerGrid.classList.add("shake");
     setTimeout(() => answerGrid.classList.remove("shake"), 500);
     return;
   }
-
-  const guess = getGuess();
-  const target = CORRECT_ANSWER.toUpperCase();
-
-  if (guess === target) {
-    showWin();
-  } else {
-    answerGrid.classList.add("shake");
-    setTimeout(() => answerGrid.classList.remove("shake"), 500);
-  }
+  checkAnswer();
 }
+
 
 checkBtn.addEventListener("click", runCheck);
 
@@ -168,18 +183,70 @@ function showWin() {
   supportBox.classList.remove("hidden");
   supportBox.setAttribute("aria-hidden", "false");
   appEl.classList.add("win");
-  [...answerGrid.children].forEach(b => { b.classList.remove("focused"); b.classList.add("won"); });
+
+  // Calculate elapsed time
+  const elapsedMs = Date.now() - startTime;
+  const seconds = Math.floor(elapsedMs / 1000) % 60;
+  const minutes = Math.floor(elapsedMs / 60000);
+  const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+
+  // Update the text inside the result panel
+  document.querySelector("#result-panel p").innerHTML =
+    `You solved today's clue in <strong>${timeString}</strong>`;
+
+  letterBoxes.forEach(b => { b.classList.remove("focused"); b.classList.add("won"); });
   gameOver = true;
 }
 
+function startNextClueTimer() {
+  const targetEl = document.querySelector(".next-clue strong");
+  if (!targetEl) return;
+
+  function nextMidnight() {
+    const now = new Date();
+    const next = new Date(now);
+    next.setDate(now.getDate() + 1);
+    next.setHours(0, 0, 0, 0);
+    return next;
+  }
+
+  function fmt(ms) {
+    const totalSec = Math.max(0, Math.floor(ms / 1000));
+    const h = Math.floor(totalSec / 3600);
+    const m = Math.floor((totalSec % 3600) / 60);
+    const s = totalSec % 60;
+    return `${h.toString().padStart(2,"0")}:${m.toString().padStart(2,"0")}:${s.toString().padStart(2,"0")}`;
+  }
+
+  let deadline = nextMidnight();
+  function tick() {
+    const now = new Date();
+    const delta = deadline - now;
+    if (delta <= 0) {
+      deadline = nextMidnight();
+      targetEl.textContent = "00:00:00";
+      return;
+    }
+    targetEl.textContent = fmt(delta);
+  }
+
+  tick();
+  if (nextClueInterval) clearInterval(nextClueInterval);
+  nextClueInterval = setInterval(tick, 1000);
+}
+
+
 function checkAnswer() {
+  if (gameOver) return;
   const guess = getGuess();
-  if (guess === CORRECT_ANSWER) showWin();
+  const target = ANSWER_LETTERS.toUpperCase();
+  if (guess === target) showWin();
   else {
     answerGrid.classList.add("shake");
     setTimeout(() => answerGrid.classList.remove("shake"), 500);
   }
 }
+
 
 function handleKeyInput(key) {
   if (gameOver) return;
@@ -270,7 +337,7 @@ function backToMenu() {
 }
 
 function revealNextLetterByOrder() {
-  const n = CORRECT_ANSWER.length;
+  const n = ANSWER_LETTERS.length;
 
   const provided = LETTER_HINT_ORDER
     .map(x => parseInt(x, 10))
@@ -287,7 +354,6 @@ function revealNextLetterByOrder() {
     if (!shownByHint.has(zero)) { pos = idx1; break; }
   }
 
-
   if (!pos) {
     if (shownByHint.size === n) {
       closeHints?.();
@@ -297,15 +363,15 @@ function revealNextLetterByOrder() {
   }
 
   const zero = pos - 1;
-  const letter = CORRECT_ANSWER[zero];
-  const box = answerGrid.children[zero];
+  const letter = ANSWER_LETTERS[zero];
+  const box = letterBoxes[zero];
 
   box.textContent = letter;
   box.dataset.locked = "hint";
   shownByHint.add(zero);
 
-  box.classList.add("hint-reveal");
-  setTimeout(() => box.classList.remove("hint-reveal"), 8000000000000);
+  box.classList.add("hint-hinted", "hint-reveal");
+  setTimeout(() => box.classList.remove("hint-reveal"), 600);
 
   let nextIndex = -1;
   for (let j = zero + 1; j < n; j++) if (!shownByHint.has(j)) { nextIndex = j; break; }
