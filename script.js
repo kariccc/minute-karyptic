@@ -1,4 +1,4 @@
-const CORRECT_ANSWER = "director";
+const CORRECT_ANSWER = "pink";
 const ANSWER_LETTERS = CORRECT_ANSWER.replace(/[^A-Za-z]/g, "");
 let letterBoxes = [2, 7, 6, 5, 3, 8, 4, 1];
 let startTime = Date.now();
@@ -6,13 +6,13 @@ let nextClueInterval = null;
 
 const PAR_INDEX = 1;
 
-const LETTER_HINT_ORDER = [2, 7, 6, 5, 3, 8, 4, 1];
+const LETTER_HINT_ORDER = [3, 2, 4, 1];
 
 //hint colors
 const HINT_SETS = {
-  indicator: [3, 9, 10,],
-  fodder: [2, 5, 6, 7, 8],
-  definition: [1] 
+  indicator: [],
+  fodder: [],
+  definition: [1, 2, 3, 4, 5] 
 };
 
 const answerGrid = document.getElementById("answer-grid");
