@@ -1,18 +1,19 @@
-const CORRECT_ANSWER = "pink";
+const CORRECT_ANSWER = "leevarinpanich";
+//A call to performers made by a group, place , and camp!?
 const ANSWER_LETTERS = CORRECT_ANSWER.replace(/[^A-Za-z]/g, "");
-let letterBoxes = [2, 7, 6, 5, 3, 8, 4, 1];
+let letterBoxes = [12, 3, 9, 10, 6, 4, 5, 7, 1, 8, 14, 11, 2, 13];
 let startTime = Date.now();
 let nextClueInterval = null;
 
 const PAR_INDEX = 1;
 
-const LETTER_HINT_ORDER = [3, 2, 4, 1];
+const LETTER_HINT_ORDER = [12, 3, 9, 10, 6, 4, 5, 7, 1, 8, 14, 11, 2, 13];
 
 //hint colors
 const HINT_SETS = {
-  indicator: [],
-  fodder: [],
-  definition: [1, 2, 3, 4, 5] 
+  indicator: [4],
+  fodder: [1, 2, 3],
+  definition: [5, 6] 
 };
 
 const answerGrid = document.getElementById("answer-grid");
@@ -184,13 +185,12 @@ function showWin() {
   supportBox.setAttribute("aria-hidden", "false");
   appEl.classList.add("win");
 
-  // Calculate elapsed time
   const elapsedMs = Date.now() - startTime;
   const seconds = Math.floor(elapsedMs / 1000) % 60;
   const minutes = Math.floor(elapsedMs / 60000);
   const timeString = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
-  // Update the text inside the result panel
+
   document.querySelector("#result-panel p").innerHTML =
     `You solved today's clue in <strong>${timeString}</strong>`;
 
