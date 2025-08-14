@@ -1,4 +1,4 @@
-const CORRECT_ANSWER = "pink";
+const CORRECT_ANSWER = "pinkdfhg";
 //A call to performers made by a group, place , and camp!?
 const ANSWER_LETTERS = CORRECT_ANSWER.replace(/[^A-Za-z]/g, "");
 let letterBoxes = [];
