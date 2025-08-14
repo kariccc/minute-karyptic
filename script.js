@@ -1,7 +1,7 @@
-const CORRECT_ANSWER = "leevarinpanich";
+const CORRECT_ANSWER = "testing";
 //A call to performers made by a group, place , and camp!?
 const ANSWER_LETTERS = CORRECT_ANSWER.replace(/[^A-Za-z]/g, "");
-let letterBoxes = [12, 3, 9, 10, 6, 4, 5, 7, 1, 8, 14, 11, 2, 13];
+let letterBoxes = [];
 let startTime = Date.now();
 let nextClueInterval = null;
 
